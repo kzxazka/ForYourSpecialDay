@@ -12,10 +12,7 @@ let isPlaying = false;
 let playbackInterval = null;
 
 // Initialize the application
-document.addEventListener('DOMContentLoaded', function() {
-    initializeApp();
-    checkTimeAndStart();
-});
+document.addEventListener('DOMContentLoaded', checkTimeAndStart);
 
 function checkTimeAndStart() {
     const now = new Date();
@@ -84,7 +81,7 @@ function initializeApp() {
         `;
         return; // stop eksekusi script
     }
-    
+
     showScreen('loading');
     simulateLoading();
     addEventListeners();
