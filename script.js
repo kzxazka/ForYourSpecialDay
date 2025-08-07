@@ -14,9 +14,77 @@ let playbackInterval = null;
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
     initializeApp();
+    checkTimeAndStart();
 });
 
+function checkTimeAndStart() {
+    const now = new Date();
+    const releaseTime = new Date("2025-08-08T00:00:00+07:00"); // jam 12 malam WIB
+
+    if (now < releaseTime) {
+        document.title = "🎁 Coming Soon...";
+        window.history.replaceState({}, "", "#countdown"); // ubah URL
+
+        document.body.innerHTML = `
+            <div style="color:white; font-family:monospace; text-align:center; padding: 100px;">
+                <h1 style="font-size: 2em;">⏳ Hitung Mundur Ke Kejutan 🎉</h1>
+                <p>Web ini akan aktif saat ulang tahun Rere dimulai.</p>
+                <h2 id="countdown-timer" style="margin: 30px 0; font-size: 1.5em;"></h2>
+                <p>Balik lagi ya jam 12 malam ✨</p>
+                <p style="margin-top: 40px;">- kaza -</p>
+            </div>
+        `;
+        startCountdown(releaseTime);
+    } else {
+        document.title = "Birthday Gift";
+        window.history.replaceState({}, "", "index.html"); // balikkan URL
+        initializeApp();
+    }
+}
+
+function startCountdown(targetTime) {
+    const timerEl = document.getElementById("countdown-timer");
+    if (!timerEl) return;
+
+    function updateTimer() {
+        const now = new Date();
+        const diff = targetTime - now;
+
+        if (diff <= 0) {
+            location.reload(); // reload biar langsung masuk web utama
+            return;
+        }
+
+        const hours = Math.floor(diff / 1000 / 60 / 60);
+        const minutes = Math.floor((diff / 1000 / 60) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
+
+        timerEl.textContent = `${pad(hours)} jam ${pad(minutes)} menit ${pad(seconds)} detik`;
+    }
+
+    updateTimer(); // jalankan pertama kali
+    setInterval(updateTimer, 1000);
+}
+
+function pad(n) {
+    return n < 10 ? "0" + n : n;
+}
+
 function initializeApp() {
+    const now = new Date();
+    const accesTime = new Date("2025-08-08T00:00:00");
+
+    if (now < accessTime) {
+        document.body.innerHTML = `
+            <div style="color:white; font-family:monospace; text-align:center; padding: 100px;">
+                <h1>😴 Belum waktunya...</h1>
+                <p>Sabar yaa... hadiah ulang tahun ini baru bisa dibuka <strong>jam 12 malam tanggal 8 Agustus 2025</strong>.</p>
+                <p>- kaza -</p>
+            </div>
+        `;
+        return; // stop eksekusi script
+    }
+    
     showScreen('loading');
     simulateLoading();
     addEventListeners();
