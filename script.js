@@ -68,25 +68,12 @@ function pad(n) {
 }
 
 function initializeApp() {
-    const now = new Date();
-    const accesTime = new Date("2025-08-08T00:00:00");
-
-    if (now < accessTime) {
-        document.body.innerHTML = `
-            <div style="color:white; font-family:monospace; text-align:center; padding: 100px;">
-                <h1>😴 Belum waktunya...</h1>
-                <p>Sabar yaa... hadiah ulang tahun ini baru bisa dibuka <strong>jam 12 malam tanggal 8 Agustus 2025</strong>.</p>
-                <p>- kaza -</p>
-            </div>
-        `;
-        return; // stop eksekusi script
-    }
-
     showScreen('loading');
     simulateLoading();
     addEventListeners();
     initializeTetris();
 }
+
 
 function simulateLoading() {
     const progressFill = document.getElementById('progress-fill');
